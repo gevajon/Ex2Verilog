@@ -1,0 +1,30 @@
+
+`timescale 1ns/100ps
+
+module Register_tb;
+  reg [31:0] write;
+  reg [4:0] line;
+  reg clock;
+  wire [31:0]read;
+  
+  
+  Register regi (write,line,clock,read);
+        initial
+          begin
+            write=31'b0;
+            line=5'b0;
+            clock=0;
+            $monitor($time," write%b,line=%b,read=%b,clock=%b",write,line,read,clock);
+          end
+        initial
+          begin
+            #1 write=1;
+            #1 line=0;
+            #1 write=0;
+            #1 line=1;
+            #1 write=1;
+            #1 line=0;
+            #1 $finish;
+          end
+          always #1 clock=~clock;
+  endmodule
